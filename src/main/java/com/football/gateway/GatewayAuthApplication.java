@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(AppProperties.class)
 public class GatewayAuthApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GatewayAuthApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GatewayAuthApplication.class, args);
+    }
 }
