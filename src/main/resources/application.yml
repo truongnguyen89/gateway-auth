@@ -1,5 +1,5 @@
 server:
-    port: 8080
+    port: 6789
 spring:
     datasource:
         url: "jdbc:mysql://localhost:3306/football?createDatabaseIfNotExist=true&useSSL=false"
