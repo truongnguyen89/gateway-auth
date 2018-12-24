@@ -1,5 +1,6 @@
 server:
     port: 8080
+    #Chuyen tam ve 8080, cac app id ma google dang cau hinh la 8080, sau nay gateway se chuyen ve port 6789
 spring:
     datasource:
         url: "jdbc:mysql://localhost:3306/football?createDatabaseIfNotExist=true&useSSL=false"
