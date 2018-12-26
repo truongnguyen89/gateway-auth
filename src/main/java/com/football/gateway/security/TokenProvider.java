@@ -1,9 +1,12 @@
 package com.football.gateway.security;
 
 import com.football.gateway.config.AppProperties;
+import com.football.gateway.model.Token;
+import com.football.gateway.repository.TokenRepository;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,8 @@ import java.util.Date;
 public class TokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
-
+    @Autowired
+    TokenRepository tokenRepository;
     private AppProperties appProperties;
 
     public TokenProvider(AppProperties appProperties) {
@@ -24,14 +28,16 @@ public class TokenProvider {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
-
-        return Jwts.builder()
+        long expiry = appProperties.getAuth().getTokenExpirationMsec();
+        Date expiryDate = new Date(now.getTime() + expiry);
+        String token = Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
+        tokenRepository.save(new Token(userPrincipal.getId(), token, expiry));
+        return token;
     }
 
     public Long getUserIdFromToken(String token) {
