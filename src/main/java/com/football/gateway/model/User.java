@@ -40,8 +40,6 @@ public class User {
     private String address;
     @Column(name = "n_type")
     private Integer type;
-    @Column(name = "n_role_id")
-    private Integer roleId;
     @Column(name = "n_status", nullable = false)
     private Integer status;
     @Column(name = "b_email_verified", nullable = false)
