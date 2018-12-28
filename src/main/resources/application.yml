@@ -13,6 +13,10 @@ logging:
         file: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
 
 zuul:
+    ignoredPatterns:
+        - /auth/login/**
+        - /auth/signup/**
+        - /user/me
     routes:
         api-category:
             path: /api/category/**
