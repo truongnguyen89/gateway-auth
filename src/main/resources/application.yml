@@ -1,5 +1,5 @@
 server:
-    port: 8080
+    port: 6789
     #Chuyen tam ve 8080, cac app id ma google dang cau hinh la 8080, sau nay gateway se chuyen ve port 6789
 
 eureka:
@@ -80,15 +80,15 @@ spring:
             client:
                 registration:
                     google:
-                        clientId: 5014057553-8gm9um6vnli3cle5rgigcdjpdrid14m9.apps.googleusercontent.com
-                        clientSecret: tWZKVLxaD_ARWsriiiUFYoIk
+                        clientId: 234271493536-4qspi8a1udhep3r5h6ev0pnrnrc3utes.apps.googleusercontent.com
+                        clientSecret: 2J3kuxAwCe_TUCpyUmX54Cjy
                         redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
                         scope:
                             - email
                             - profile
                     facebook:
-                        clientId: 121189305185277
-                        clientSecret: 42ffe5aa7379e8326387e0fe16f34132
+                        clientId: 2008777312546230
+                        clientSecret: 016a73fbfd7ab7cc19d68df3d24e430d
                         redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
                         scope:
                             - email
