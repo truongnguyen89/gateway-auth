@@ -1,8 +1,8 @@
 package com.football.gateway.security;
 
+import com.football.gateway.component.DataAccess;
 import com.football.gateway.config.AppProperties;
 import com.football.gateway.model.Token;
-import com.football.gateway.repository.TokenRepository;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +16,10 @@ import java.util.Date;
 public class TokenProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+
     @Autowired
-    TokenRepository tokenRepository;
+    private DataAccess dataAccess;
+
     private AppProperties appProperties;
 
     public TokenProvider(AppProperties appProperties) {
@@ -36,7 +38,7 @@ public class TokenProvider {
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, appProperties.getAuth().getTokenSecret())
                 .compact();
-        tokenRepository.save(new Token(userPrincipal.getId(), token, expiry));
+        dataAccess.saveToken(new Token(userPrincipal.getId(), token, expiry));
         return token;
     }
 
