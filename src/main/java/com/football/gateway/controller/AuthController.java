@@ -3,13 +3,11 @@ package com.football.gateway.controller;
 import com.football.gateway.exception.BadRequestException;
 import com.football.gateway.model.AuthProvider;
 import com.football.gateway.model.User;
-import com.football.gateway.payload.ApiResponse;
-import com.football.gateway.payload.AuthResponse;
-import com.football.gateway.payload.LoginRequest;
-import com.football.gateway.payload.SignUpRequest;
+import com.football.gateway.payload.*;
 import com.football.gateway.repository.UserRepository;
 import com.football.gateway.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -80,6 +78,22 @@ public class AuthController {
 
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "User registered successfully@"));
+    }
+
+    @PostMapping("/password/change")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordBody changePasswordBody) {
+        User user = userRepository.findFirstByEmail(changePasswordBody.getEmail().toLowerCase().trim());
+        if (user == null)
+            return new ResponseEntity<>("User not found with email " + changePasswordBody.getEmail(), HttpStatus.NOT_FOUND);
+        else if (user.getProvider() != AuthProvider.local)
+            return new ResponseEntity<>("User created by login with " + user.getProvider(), HttpStatus.BAD_REQUEST);
+//        else if (!changePasswordBody.getOldPass().equals(passwordEncoder.encode(user.getPassword())))
+//            return new ResponseEntity<>("Old pass invalid " + changePasswordBody.getOldPass(), HttpStatus.BAD_REQUEST);
+        else if (changePasswordBody.getOldPass().equals(changePasswordBody.getNewPass()))
+            return new ResponseEntity<>("New pass equals Old pass", HttpStatus.BAD_REQUEST);
+        else
+            user.setPassword(passwordEncoder.encode(changePasswordBody.getNewPass()));
+        return new ResponseEntity<User>(userRepository.save(user), HttpStatus.OK);
     }
 
 }
