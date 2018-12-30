@@ -1,5 +1,6 @@
 package com.football.gateway.controller;
 
+import com.football.gateway.exception.BadRequestException;
 import com.football.gateway.model.AuthProvider;
 import com.football.gateway.model.User;
 import com.football.gateway.payload.ApiResponse;
@@ -8,7 +9,6 @@ import com.football.gateway.payload.LoginRequest;
 import com.football.gateway.payload.SignUpRequest;
 import com.football.gateway.repository.UserRepository;
 import com.football.gateway.security.TokenProvider;
-import com.football.gateway.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +16,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
@@ -43,7 +46,7 @@ public class AuthController {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
+                        loginRequest.getEmail().toLowerCase().trim(),
                         loginRequest.getPassword()
                 )
         );
@@ -56,14 +59,14 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if(userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (userRepository.existsByEmail(signUpRequest.getEmail().toLowerCase().trim())) {
             throw new BadRequestException("Email address already in use.");
         }
 
         // Creating user's account
         User user = new User();
         user.setName(signUpRequest.getName());
-        user.setEmail(signUpRequest.getEmail());
+        user.setEmail(signUpRequest.getEmail().toLowerCase().trim());
         user.setPassword(signUpRequest.getPassword());
         user.setProvider(AuthProvider.local);
 
