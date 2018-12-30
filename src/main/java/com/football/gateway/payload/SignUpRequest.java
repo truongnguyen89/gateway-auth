@@ -4,7 +4,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Created by rajeevkumarsingh on 02/08/17.
+ * Created by IntelliJ IDEA.
+ * User: truongnq
+ * Date: 2018-12-16
+ * Time: 21:50
+ * To change this template use File | Settings | File Templates.
  */
 
 public class SignUpRequest {

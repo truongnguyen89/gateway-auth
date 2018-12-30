@@ -30,6 +30,9 @@ zuul:
         api-notification:
             path: /api/notification/**
             serviceId: notification
+        api-auth:
+            path: /api/auth/**
+            serviceId: auth
     host:
         connect-timeout-millis: 200000
         socket-timeout-millis: 200000
