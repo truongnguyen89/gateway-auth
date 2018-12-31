@@ -1,7 +1,10 @@
 package com.football.gateway.controller;
 
+import com.football.common.model.email.Email;
 import com.football.common.model.user.User;
 import com.football.common.repository.UserRepository;
+import com.football.common.util.JsonCommon;
+import com.football.gateway.component.DataAccess;
 import com.football.gateway.exception.BadRequestException;
 import com.football.gateway.model.AuthProvider;
 import com.football.gateway.payload.*;
@@ -29,8 +32,13 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DataAccess dataAccess;
+
     @Autowired
     private AuthenticationManager authenticationManager;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -50,6 +58,8 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = tokenProvider.createToken(authentication);
+        Email email = new Email("nqtruong@ecpay.vn", "[" + loginRequest.getEmail().toLowerCase().trim() + "] Login", JsonCommon.objectToJsonLog(loginRequest));
+        dataAccess.saveEmail(email);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
@@ -76,7 +86,8 @@ public class AuthController {
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/user/me")
                 .buildAndExpand(result.getId()).toUri();
-
+        Email email = new Email("nqtruong@ecpay.vn", "[" + user.getEmail().toLowerCase().trim() + "] signup ", JsonCommon.objectToJsonLog(user));
+        dataAccess.saveEmail(email);
         return ResponseEntity.created(location)
                 .body(new ApiResponse(true, "User registered successfully@"));
     }

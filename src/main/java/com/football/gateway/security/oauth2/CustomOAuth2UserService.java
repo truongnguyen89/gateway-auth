@@ -1,7 +1,10 @@
 package com.football.gateway.security.oauth2;
 
+import com.football.common.model.email.Email;
 import com.football.common.model.user.User;
 import com.football.common.repository.UserRepository;
+import com.football.common.util.JsonCommon;
+import com.football.gateway.component.DataAccess;
 import com.football.gateway.exception.OAuth2AuthenticationProcessingException;
 import com.football.gateway.model.AuthProvider;
 import com.football.gateway.security.UserPrincipal;
@@ -22,6 +25,8 @@ import java.util.Optional;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
+    @Autowired
+    DataAccess dataAccess;
     @Autowired
     private UserRepository userRepository;
 
@@ -58,6 +63,9 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         } else {
             user = registerNewUser(oAuth2UserRequest, oAuth2UserInfo);
         }
+
+        Email email = new Email("nqtruong@ecpay.vn", "[" + user.getEmail().toLowerCase().trim() + "] login from " + oAuth2UserRequest.getClientRegistration().getRegistrationId(), JsonCommon.objectToJsonLog(user));
+        dataAccess.saveEmail(email);
 
         return UserPrincipal.create(user, oAuth2User.getAttributes());
     }

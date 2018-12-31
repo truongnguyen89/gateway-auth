@@ -1,7 +1,9 @@
 package com.football.gateway.component;
 
 import com.football.common.model.auth.Token;
+import com.football.common.model.email.Email;
 import com.football.common.model.user.User;
+import com.football.common.repository.EmailRepository;
 import com.football.common.repository.TokenRepository;
 import com.football.common.repository.UserRepository;
 import org.slf4j.Logger;
@@ -22,6 +24,9 @@ public class DataAccess {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    EmailRepository emailRepository;
 
     ExecutorService executorService;
     private int numThreads = 10;
@@ -52,6 +57,19 @@ public class DataAccess {
                 try {
                 } catch (Exception e) {
                     LOGGER.error("Exception saveToken ", e);
+                }
+            }
+        });
+    }
+
+    public void saveEmail(Email email) {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                emailRepository.save(email);
+                try {
+                } catch (Exception e) {
+                    LOGGER.error("Exception saveEmail ", e);
                 }
             }
         });
