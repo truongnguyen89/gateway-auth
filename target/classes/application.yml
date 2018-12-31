@@ -1,123 +1,123 @@
 server:
-    port: 6789
-    #Chuyen tam ve 8080, cac app id ma google dang cau hinh la 8080, sau nay gateway se chuyen ve port 6789
+  port: 6789
+  #Chuyen tam ve 8080, cac app id ma google dang cau hinh la 8080, sau nay gateway se chuyen ve port 6789
 
 eureka:
-    client:
-        serviceUrl:
-            defaultZone: http://localhost:8761/eureka/
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 
 logging:
-    pattern:
-        console: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
-        file: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
+  pattern:
+    console: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
+    file: "[%d{dd/MM/yyyy HH:mm:ss,SSS}] %m%n"
 
 zuul:
-    ignoredPatterns:
-        - /auth/login/**
-        - /auth/signup/**
-        - /user/me
-    routes:
-        api-category:
-            path: /api/category/**
-            serviceId: category
-        api-core:
-            path: /api/core/**
-            serviceId: core
-        api-schedule:
-            path: /api/schedule/**
-            serviceId: schedule
-        api-notification:
-            path: /api/notification/**
-            serviceId: notification
-        api-auth:
-            path: /api/auth/**
-            serviceId: auth
-    host:
-        connect-timeout-millis: 200000
-        socket-timeout-millis: 200000
-    ignored-headers: Access-Control-Allow-Origin
+  ignoredPatterns:
+    - /auth/login/**
+    - /auth/signup/**
+    - /user/me
+  routes:
+    api-category:
+      path: /api/category/**
+      serviceId: category
+    api-core:
+      path: /api/core/**
+      serviceId: core
+    api-schedule:
+      path: /api/schedule/**
+      serviceId: schedule
+    api-notification:
+      path: /api/notification/**
+      serviceId: notification
+    api-auth:
+      path: /api/auth/**
+      serviceId: auth
+  host:
+    connect-timeout-millis: 200000
+    socket-timeout-millis: 200000
+  ignored-headers: Access-Control-Allow-Origin
 
 ribbon:
-    eureka:
-        enabled: true
-    ReadTimeout: 200000
-    ConnectTimeout: 200000
-    maxAutoRetries: 1
-    MaxAutoRetriesNextServer: 2
-    OkToRetryOnAllOperations: true
+  eureka:
+    enabled: true
+  ReadTimeout: 200000
+  ConnectTimeout: 200000
+  maxAutoRetries: 1
+  MaxAutoRetriesNextServer: 2
+  OkToRetryOnAllOperations: true
 
 hystrix:
-    command:
-        default:
-            execution:
-                timeout:
-                    enabled: false
-                isolation:
-                    strategy: SEMAPHORE
-                    thread:
-                        timeoutInMilliseconds: 200000
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 200000
 spring:
-    session:
-        store-type: none
-    profiles:
-        active: default
-    application:
-        name: gateway
-    datasource:
-        url: "jdbc:mysql://localhost:3306/football?createDatabaseIfNotExist=true&useSSL=false"
-        username: root
-        password:
-        driver-class-name: com.mysql.jdbc.Driver
+  session:
+    store-type: none
+  profiles:
+    active: default
+  application:
+    name: gateway
+  datasource:
+    url: "jdbc:mysql://localhost:3306/football?createDatabaseIfNotExist=true&useSSL=false"
+    username: root
+    password:
+    driver-class-name: com.mysql.jdbc.Driver
 
-    jpa:
-        show-sql: true
-        hibernate:
-            ddl-auto: update
-            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-        properties:
-            hibernate:
-                dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    security:
-        oauth2:
-            client:
-                registration:
-                    google:
-                        clientId: 234271493536-4qspi8a1udhep3r5h6ev0pnrnrc3utes.apps.googleusercontent.com
-                        clientSecret: 2J3kuxAwCe_TUCpyUmX54Cjy
-                        redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-                        scope:
-                            - email
-                            - profile
-                    facebook:
-                        clientId: 2008777312546230
-                        clientSecret: 016a73fbfd7ab7cc19d68df3d24e430d
-                        redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-                        scope:
-                            - email
-                            - public_profile
-                    github:
-                        clientId: d3e47fc2ddd966fa4352
-                        clientSecret: 3bc0f6b8332f93076354c2a5bada2f5a05aea60d
-                        redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
-                        scope:
-                            - user:email
-                            - read:user
-                provider:
-                    facebook:
-                        authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
-                        tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
-                        userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
-app:
-    auth:
-        tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
-        tokenExpirationMsec: 864000000
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  security:
     oauth2:
+      client:
+        registration:
+          google:
+            clientId: 234271493536-4qspi8a1udhep3r5h6ev0pnrnrc3utes.apps.googleusercontent.com
+            clientSecret: 2J3kuxAwCe_TUCpyUmX54Cjy
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            clientId: 2008777312546230
+            clientSecret: 016a73fbfd7ab7cc19d68df3d24e430d
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            clientId: d3e47fc2ddd966fa4352
+            clientSecret: 3bc0f6b8332f93076354c2a5bada2f5a05aea60d
+            redirectUriTemplate: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+        provider:
+          facebook:
+            authorizationUri: https://www.facebook.com/v3.0/dialog/oauth
+            tokenUri: https://graph.facebook.com/v3.0/oauth/access_token
+            userInfoUri: https://graph.facebook.com/v3.0/me?fields=id,first_name,middle_name,last_name,name,email,verified,is_verified,picture.width(250).height(250)
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationMsec: 864000000
+  oauth2:
     # After successfully authenticating with the OAuth2 Provider,
     # we'll be generating an auth token for the user and sending the token to the
     # redirectUri mentioned by the client in the /oauth2/authorize request.
     # We're not using cookies because they won't work well in mobile clients.
-        authorizedRedirectUris:
-            - http://localhost:3000/oauth2/redirect
-            - myandroidapp://oauth2/redirect
-            - myiosapp://oauth2/redirect
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect

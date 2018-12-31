@@ -1,10 +1,10 @@
 package com.football.gateway.controller;
 
-import com.football.gateway.model.User;
-import com.football.gateway.repository.UserRepository;
+import com.football.common.model.user.User;
+import com.football.common.repository.UserRepository;
+import com.football.gateway.exception.ResourceNotFoundException;
 import com.football.gateway.security.CurrentUser;
 import com.football.gateway.security.UserPrincipal;
-import com.football.gateway.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

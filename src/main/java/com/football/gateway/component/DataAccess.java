@@ -1,9 +1,9 @@
 package com.football.gateway.component;
 
-import com.football.gateway.model.Token;
-import com.football.gateway.model.User;
-import com.football.gateway.repository.TokenRepository;
-import com.football.gateway.repository.UserRepository;
+import com.football.common.model.auth.Token;
+import com.football.common.model.user.User;
+import com.football.common.repository.TokenRepository;
+import com.football.common.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

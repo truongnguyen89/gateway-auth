@@ -1,6 +1,6 @@
 package com.football.gateway.model;
 
-public enum  AuthProvider {
+public enum AuthProvider {
     local,
     facebook,
     google,

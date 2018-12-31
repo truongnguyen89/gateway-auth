@@ -1,10 +1,10 @@
 package com.football.gateway.security;
 
 
+import com.football.common.model.user.User;
+import com.football.common.repository.UserRepository;
 import com.football.gateway.component.DataAccess;
 import com.football.gateway.exception.ResourceNotFoundException;
-import com.football.gateway.model.User;
-import com.football.gateway.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

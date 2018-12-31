@@ -7,11 +7,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.football.*")
 @EnableConfigurationProperties(AppProperties.class)
 @EnableZuulProxy
 public class GatewayAuthApplication {

@@ -1,10 +1,10 @@
 package com.football.gateway.controller;
 
+import com.football.common.model.user.User;
+import com.football.common.repository.UserRepository;
 import com.football.gateway.exception.BadRequestException;
 import com.football.gateway.model.AuthProvider;
-import com.football.gateway.model.User;
 import com.football.gateway.payload.*;
-import com.football.gateway.repository.UserRepository;
 import com.football.gateway.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,11 +28,9 @@ import java.net.URI;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
+    UserRepository userRepository;
     @Autowired
-    private UserRepository userRepository;
-
+    private AuthenticationManager authenticationManager;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -66,7 +64,7 @@ public class AuthController {
         user.setName(signUpRequest.getName());
         user.setEmail(signUpRequest.getEmail().toLowerCase().trim());
         user.setPassword(signUpRequest.getPassword());
-        user.setProvider(AuthProvider.local);
+        user.setProvider(AuthProvider.local.name());
         user.setStatus(1);
         user.setType(1);
         user.setPhone(signUpRequest.getPhone());
@@ -88,7 +86,7 @@ public class AuthController {
         User user = userRepository.findFirstByEmail(changePasswordBody.getEmail().toLowerCase().trim());
         if (user == null)
             return new ResponseEntity<>("User not found with email " + changePasswordBody.getEmail(), HttpStatus.NOT_FOUND);
-        else if (user.getProvider() != AuthProvider.local)
+        else if (!user.getProvider().equals(AuthProvider.local.name()))
             return new ResponseEntity<>("User created by login with " + user.getProvider(), HttpStatus.BAD_REQUEST);
 //        else if (!changePasswordBody.getOldPass().equals(passwordEncoder.encode(user.getPassword())))
 //            return new ResponseEntity<>("Old pass invalid " + changePasswordBody.getOldPass(), HttpStatus.BAD_REQUEST);

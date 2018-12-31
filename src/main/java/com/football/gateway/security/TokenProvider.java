@@ -1,8 +1,8 @@
 package com.football.gateway.security;
 
+import com.football.common.model.auth.Token;
 import com.football.gateway.component.DataAccess;
 import com.football.gateway.config.AppProperties;
-import com.football.gateway.model.Token;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,12 +1,12 @@
 package com.football.gateway.security.oauth2;
 
+import com.football.common.model.user.User;
+import com.football.common.repository.UserRepository;
+import com.football.gateway.exception.OAuth2AuthenticationProcessingException;
 import com.football.gateway.model.AuthProvider;
-import com.football.gateway.model.User;
 import com.football.gateway.security.UserPrincipal;
 import com.football.gateway.security.oauth2.user.OAuth2UserInfo;
 import com.football.gateway.security.oauth2.user.OAuth2UserInfoFactory;
-import com.football.gateway.exception.OAuth2AuthenticationProcessingException;
-import com.football.gateway.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -41,15 +41,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
-        if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
+        if (StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
 
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
-        if(userOptional.isPresent()) {
+        if (userOptional.isPresent()) {
             user = userOptional.get();
-            if(!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
+            if (!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
                 throw new OAuth2AuthenticationProcessingException("Looks like you're signed up with " +
                         user.getProvider() + " account. Please use your " + user.getProvider() +
                         " account to login.");
@@ -65,7 +65,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User registerNewUser(OAuth2UserRequest oAuth2UserRequest, OAuth2UserInfo oAuth2UserInfo) {
         User user = new User();
 
-        user.setProvider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()));
+        user.setProvider(oAuth2UserRequest.getClientRegistration().getRegistrationId());
         user.setProviderId(oAuth2UserInfo.getId());
         user.setStatus(1);
         user.setType(1);

@@ -1,6 +1,6 @@
 package com.football.gateway.security;
 
-import com.football.gateway.model.User;
+import com.football.common.model.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
