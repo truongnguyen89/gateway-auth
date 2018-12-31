@@ -90,8 +90,12 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-zuul</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.football</groupId>
+			<artifactId>common</artifactId>
+			<version>${version}</version>
+		</dependency>
 	</dependencies>
-
 
 	<dependencyManagement>
 		<dependencies>
@@ -110,6 +114,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
@@ -124,6 +131,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
 
 
 </project>
