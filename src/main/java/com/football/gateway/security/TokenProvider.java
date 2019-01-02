@@ -1,11 +1,12 @@
 package com.football.gateway.security;
 
+import com.football.common.constant.Constant;
 import com.football.common.model.auth.Token;
 import com.football.gateway.component.DataAccess;
 import com.football.gateway.config.AppProperties;
 import io.jsonwebtoken.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.Date;
 @Service
 public class TokenProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
+    private static final Logger LOGGER = LogManager.getLogger(Constant.LOG_APPENDER.AUTHENTICATION);
 
     @Autowired
     private DataAccess dataAccess;
@@ -56,15 +57,15 @@ public class TokenProvider {
             Jwts.parser().setSigningKey(appProperties.getAuth().getTokenSecret()).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
-            logger.error("Invalid JWT signature");
+            LOGGER.error("Invalid JWT signature");
         } catch (MalformedJwtException ex) {
-            logger.error("Invalid JWT token");
+            LOGGER.error("Invalid JWT token");
         } catch (ExpiredJwtException ex) {
-            logger.error("Expired JWT token");
+            LOGGER.error("Expired JWT token");
         } catch (UnsupportedJwtException ex) {
-            logger.error("Unsupported JWT token");
+            LOGGER.error("Unsupported JWT token");
         } catch (IllegalArgumentException ex) {
-            logger.error("JWT claims string is empty.");
+            LOGGER.error("JWT claims string is empty.");
         }
         return false;
     }

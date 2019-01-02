@@ -1,8 +1,9 @@
 package com.football.gateway;
 
+import com.football.common.constant.Constant;
 import com.football.gateway.config.AppProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -17,7 +18,7 @@ import java.net.InetAddress;
 @EnableConfigurationProperties(AppProperties.class)
 @EnableZuulProxy
 public class GatewayAuthApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GatewayAuthApplication.class);
+    private static final Logger LOGGER = LogManager.getLogger(Constant.LOG_APPENDER.APPLICATION);
 
     public static void main(String[] args) {
         long id = System.currentTimeMillis();

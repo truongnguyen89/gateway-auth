@@ -1,13 +1,14 @@
 package com.football.gateway.component;
 
+import com.football.common.constant.Constant;
 import com.football.common.model.auth.Token;
 import com.football.common.model.email.Email;
 import com.football.common.model.user.User;
 import com.football.common.repository.EmailRepository;
 import com.football.common.repository.TokenRepository;
 import com.football.common.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.concurrent.Executors;
 
 @Service
 public class DataAccess {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataAccess.class);
+    private static final Logger LOGGER = LogManager.getLogger(Constant.LOG_APPENDER.APPLICATION);
 
     @Autowired
     TokenRepository tokenRepository;
